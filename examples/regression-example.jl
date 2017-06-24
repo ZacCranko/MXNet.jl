@@ -48,10 +48,10 @@ optimizer = mx.ADAM()
 # train, reporting loss for training and evaluation sets
 # initial training with small batch size, to get to a good neighborhood
 batchsize = 200
-mx.fit(model, optimizer, initializer=mx.NormalInitializer(0.0,0.1), eval_metric=mx.MSE(), trainprovider, eval_data=evalprovider, n_epoch = 20)
+mx.fit!(model, optimizer, initializer=mx.NormalInitializer(0.0,0.1), eval_metric=mx.MSE(), trainprovider, eval_data=evalprovider, n_epoch = 20)
 # more training with the full sample
 batchsize = samplesize
-mx.fit(model, optimizer, eval_metric=mx.MSE(), trainprovider, eval_data=evalprovider, n_epoch = 20)
+mx.fit!(model, optimizer, eval_metric=mx.MSE(), trainprovider, eval_data=evalprovider, n_epoch = 20)
 
 # obtain predictions
 plotprovider = mx.ArrayDataProvider(:data => ValidationInput, :label => ValidationOutput)

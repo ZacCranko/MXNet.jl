@@ -111,7 +111,7 @@ Combine multiple metrics in one and get a result for all of them.
 # Usage
 To calculate both mean-squared error [`Accuracy`](@ref) and log-loss [`ACE`](@ref):
 ```julia
-  mx.fit(..., eval_metric = mx.MultiMetric([mx.Accuracy(), mx.ACE()]))
+  mx.fit!(..., eval_metric = mx.MultiMetric([mx.Accuracy(), mx.ACE()]))
 ```
 """
 type MultiMetric <: mx.AbstractEvalMetric
@@ -143,7 +143,7 @@ Apply a different metric to each output. This is especially useful for `mx.Group
 Calculate accuracy [`Accuracy`](@ref) for the first output
 and log-loss [`ACE`](@ref) for the second output:
 ```julia
-  mx.fit(..., eval_metric = mx.SeqMetric([mx.Accuracy(), mx.ACE()]))
+  mx.fit!(..., eval_metric = mx.SeqMetric([mx.Accuracy(), mx.ACE()]))
 ```
 """
 type SeqMetric <: mx.AbstractEvalMetric

@@ -61,4 +61,4 @@ optimizer = mx.ADAM(lr=0.01, weight_decay=0.00001)
 
 # fit parameters
 initializer=mx.XavierInitializer(distribution = mx.xv_uniform, regularization = mx.xv_avg, magnitude = 1)
-mx.fit(model, optimizer, train_provider, n_epoch=20, eval_data=eval_provider,initializer=initializer)
+mx.fit!(model, optimizer, train_provider, n_epoch=20, eval_data=eval_provider,initializer=initializer)

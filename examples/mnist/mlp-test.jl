@@ -31,7 +31,7 @@ function mnist_fit_and_predict(optimizer, initializer, n_epoch)
 
   # fit parameters
   cp_prefix = "mnist-test-cp"
-  mx.fit(model, optimizer, train_provider, eval_data=eval_provider, n_epoch=n_epoch,
+  mx.fit!(model, optimizer, train_provider, eval_data=eval_provider, n_epoch=n_epoch,
          initializer=initializer, callbacks=[mx.speedometer(), mx.do_checkpoint(cp_prefix, save_epoch_0=true)])
 
   # make sure the checkpoints are saved

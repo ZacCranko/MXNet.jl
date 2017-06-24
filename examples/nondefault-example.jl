@@ -86,7 +86,7 @@ opt        = mx.SGD(lr = learn_rate, momentum = mom, weight_decay = wt_decay)   
 # Learn
 mdl1 = mx.FeedForward(mlp, context = mx.cpu())                                               # Model targets the local CPU
 cb = mx.do_checkpoint("first", frequency = n_epoch, save_epoch_0 = true)                     # Write initial and final states to disk
-mx.fit(mdl1, opt, train_prov, n_epoch = n_epoch, eval_data = eval_prov, callbacks = [cb])    # Random initial biases and weights
+mx.fit!(mdl1, opt, train_prov, n_epoch = n_epoch, eval_data = eval_prov, callbacks = [cb])    # Random initial biases and weights
 
 
 ################################################################################
@@ -97,7 +97,7 @@ arch, arg_params, aux_params = mx.load_checkpoint("first", 100)    # arch is the
 mdl2 = mx.FeedForward(arch, context = mx.cpu())                    # Only populates the arch and ctx fields
 mdl2.arg_params = arg_params                                       # Populate the arg_params fields
 cb   = mx.do_checkpoint("second", frequency = n_epoch, save_epoch_0 = true)
-mx.fit(mdl2, opt, train_prov, n_epoch = n_epoch, eval_data = eval_prov, callbacks = [cb])
+mx.fit!(mdl2, opt, train_prov, n_epoch = n_epoch, eval_data = eval_prov, callbacks = [cb])
 
 # Test whether the final state of 1st run equals the initial state of 2nd run
 run(`diff first-0100.params second-0000.params`)    # Throws error if not true, does nothing otherwise
@@ -114,9 +114,9 @@ run(`diff first-0100.params second-0000.params`)    # Throws error if not true, 
 ### Run 3: Change the loss function from the default Accuracy to ACE
 
 mdl3 = mx.FeedForward(mlp, context = mx.cpu())
-mx.fit(mdl3, opt, train_prov, n_epoch = n_epoch, eval_data = eval_prov, eval_metric = mx.ACE())
-#mx.fit(mdl3, opt, train_prov, n_epoch = n_epoch, eval_data = eval_prov, eval_metric = mx.Accuracy())    # Default eval_metric
-#mx.fit(mdl3, opt, train_prov, n_epoch = n_epoch, eval_data = eval_prov, eval_metric = mx.MultiACE(4))
+mx.fit!(mdl3, opt, train_prov, n_epoch = n_epoch, eval_data = eval_prov, eval_metric = mx.ACE())
+#mx.fit!(mdl3, opt, train_prov, n_epoch = n_epoch, eval_data = eval_prov, eval_metric = mx.Accuracy())    # Default eval_metric
+#mx.fit!(mdl3, opt, train_prov, n_epoch = n_epoch, eval_data = eval_prov, eval_metric = mx.MultiACE(4))
 
 # Test manually
 probs = mx.predict(mdl3, eval_prov)
@@ -124,7 +124,7 @@ LL    = 0.0
 for i = 1:size(y, 1)
     LL += log(probs[Int(y[i]) + 1, i])
 end
--LL / size(y, 1)    # Should equal the value of ACE from the final iteration of fit(mdl3, ...)
+-LL / size(y, 1)    # Should equal the value of ACE from the final iteration of fit!(mdl3, ...)
 
 
 # EOF

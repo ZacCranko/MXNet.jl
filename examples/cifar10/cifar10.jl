@@ -80,5 +80,5 @@ model = mx.FeedForward(softmax, context=gpus)
 optimizer = mx.SGD(lr=0.05, momentum=0.9, weight_decay=0.0001)
 
 # fit parameters
-mx.fit(model, optimizer, train_provider, n_epoch=num_epoch, eval_data=test_provider,
+mx.fit!(model, optimizer, train_provider, n_epoch=num_epoch, eval_data=test_provider,
        initializer=mx.UniformInitializer(0.07), callbacks=[mx.speedometer()])
